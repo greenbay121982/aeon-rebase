@@ -3,13 +3,16 @@
 Copyright (c) 2017-∞, AEON, The Monero Project.
 Portions Copyright (c) 2012-2013 The Cryptonote developers.
 
-## AEON Development and Community Resources
-
+## AEON Development and Community resources
 - Web: [aeon.cash](http://aeon.cash)
 - Wiki: [aeon.wiki](https://aeon.wiki)
-- Reddit: [Reddit](https://www.reddit.com/r/Aeon/)
-- GitHub: [https://github.com/aeonix/aeon](https://github.com/aeonix/aeon)
+- Reddit: [reddit.com/r/aeon]https://reddit.com/r/aeon
+- Github: [https://github.com/aeonix/aeon]https://github.com/aeonix/aeon
 - IRC: [#aeon on Freenode](http://webchat.freenode.net/?randomnick=1&channels=%23aeon&prompt=1&uio=d4)
+
+## Vulnerability response
+
+Todo(unassigned)
 
 ## Build
 
