@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017-∞, AEON, The Monero Project
+// Copyright (c) 2017-∞, AEON, The Monero Project
 // 
 // All rights reserved.
 // 
@@ -355,6 +355,9 @@ void BlockchainDB::fixup()
     LOG_PRINT_L1("Database is opened read only - skipping fixup check");
     return;
   }
+
+  // Failsafe
+  return;
 
   // There was a bug that would cause key images for transactions without
   // any outputs to not be added to the spent key image set. There are two

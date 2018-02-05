@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017-∞, AEON, The Monero Project
+// Copyright (c) 2017-∞, AEON, The Monero Project
 //
 // All rights reserved.
 //
@@ -77,11 +77,9 @@ namespace cryptonote {
         speed = HARDFORK_1_OLD_SPEED_FACTOR;
       } 
       if (testnet && height > 1){
-        speed = EMISSION_SPEED_FACTOR_PER_MINUTE_V2;
+        speed = EMISSION_SPEED_FACTOR_PER_MINUTE_V1;
       }
-    } else if (version == 2) {
-      speed = EMISSION_SPEED_FACTOR_PER_MINUTE_V2;
-    }
+    } 
 
     return speed;
   }
@@ -92,8 +90,6 @@ namespace cryptonote {
 
     if (version == 1) {
       min_block_size = CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V1;
-    } else if (version == 2) {
-      min_block_size = CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V2;
     } 
 
     return min_block_size;
@@ -103,7 +99,8 @@ namespace cryptonote {
   {
     uint64_t base_reward = (MONEY_SUPPLY - already_generated_coins) >> speed;
     int target_minutes = DIFFICULTY_TARGET/60;
-    if (version == 2)
+
+    if (version == 1)
     {
       if(base_reward < FINAL_SUBSIDY_PER_MINUTE * target_minutes)
         base_reward = FINAL_SUBSIDY_PER_MINUTE * target_minutes;
@@ -128,6 +125,7 @@ namespace cryptonote {
     int speed = get_emission_speed(version, height, testnet);
     uint64_t base_reward = get_base_reward(version, already_generated_coins, speed);
     uint64_t full_reward_zone = get_min_block_size(version);
+
     /* This will speed things up to catch up to AEON */
     if(height == 1 && testnet) {
         uint64_t current_aeon_coins = static_cast<uint64_t>(15372295795843000000U);
@@ -174,65 +172,7 @@ namespace cryptonote {
     return true;
 
 }
-  //-----------------------------------------------------------------------------------------------
-  // bool get_block_reward(size_t median_size, size_t current_block_size, uint64_t already_generated_coins, uint64_t &reward, uint8_t version, uint64_t height, bool testnet) {
-  //   const int target_minutes = DIFFICULTY_TARGET / 60;
-  //   const int emission_speed_factor = EMISSION_SPEED_FACTOR_PER_MINUTE - (target_minutes-1);
-  //   uint64_t base_reward;
-
-  //   /* Check and see if we should use the original AEON reward */
-  //   if(version < 2 && !testnet) {
-  //       /* TODO: Need to add a check for test net in here. Version 1 testnet will be off due to different height. */
-  //       int speed = height < HARDFORK_1_HEIGHT ? HARDFORK_1_OLD_SPEED_FACTOR : REBASE_1_EMISSION_SPEED_FACTOR;        
-  //       base_reward = (MONEY_SUPPLY - already_generated_coins) >> speed;
-  //   } else {
-
-  //       /* Post rebase reward */
-  //       base_reward = (MONEY_SUPPLY - already_generated_coins) >> emission_speed_factor;
-   
-  //       if (base_reward < FINAL_SUBSIDY_PER_MINUTE*target_minutes) {
-  //           base_reward = FINAL_SUBSIDY_PER_MINUTE*target_minutes;
-  //       }
-  //   } 
-
-  //   uint64_t full_reward_zone = get_min_block_size(version);
-
-  //   /* After rebase we want to use  Monero's blocksize due to the increase in ringct size */
-  //   //make it soft
-  //   if (median_size < full_reward_zone) {
-  //     median_size = full_reward_zone;
-  //   }
-
-  //   if (current_block_size <= median_size) {
-  //     reward = base_reward;
-  //     return true;
-  //   }
-
-  //   if(current_block_size > 2 * median_size) {
-  //     MERROR("Block cumulative size is too big: " << current_block_size << ", expected less than " << 2 * median_size);
-  //     return false;
-  //   }
-
-  //   assert(median_size < std::numeric_limits<uint32_t>::max());
-  //   assert(current_block_size < std::numeric_limits<uint32_t>::max());
-
-  //   uint64_t product_hi;
-  //   // BUGFIX: 32-bit saturation bug (e.g. ARM7), the result was being
-  //   // treated as 32-bit by default.
-  //   uint64_t multiplicand = 2 * median_size - current_block_size;
-  //   multiplicand *= current_block_size;
-  //   uint64_t product_lo = mul128(base_reward, multiplicand, &product_hi);
-
-  //   uint64_t reward_hi;
-  //   uint64_t reward_lo;
-  //   div128_32(product_hi, product_lo, static_cast<uint32_t>(median_size), &reward_hi, &reward_lo);
-  //   div128_32(reward_hi, reward_lo, static_cast<uint32_t>(median_size), &reward_hi, &reward_lo);
-  //   assert(0 == reward_hi);
-  //   assert(reward_lo < base_reward);
-
-  //   reward = reward_lo;
-  //   return true;
-  // }
+  
   //------------------------------------------------------------------------------------
   uint8_t get_account_address_checksum(const public_address_outer_blob& bl)
   {

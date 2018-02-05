@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017-∞, AEON, The Monero Project
+// Copyright (c) 2017-∞, AEON, The Monero Project
 // 
 // All rights reserved.
 // 
@@ -60,7 +60,13 @@
 #define CRYPTONOTE_PUBLIC_ADDRESS_TEXTBLOB_VER          0
 #define CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW            60
 
-#define CURRENT_TRANSACTION_VERSION                     2
+// --NOTE--
+// AEON v0.9.14.0 has no version, and rebase is set as version 1, with version 2 here and 
+// elsewhere meant to serve as placeholders, in order to allow for easier future development.
+// Take note that you will see this reflected in the define naming convention as well, 
+// whenever you happen upon a *_V1 and *_V2 pair and are confused as to why a second
+// version even exists in the first place
+#define CURRENT_TRANSACTION_VERSION                     1
 #define CURRENT_BLOCK_MAJOR_VERSION                     1
 #define CURRENT_BLOCK_MINOR_VERSION                     0
 #define CRYPTONOTE_BLOCK_FUTURE_TIME_LIMIT              60*60*2
@@ -70,15 +76,14 @@
 
 // MONEY_SUPPLY - total number coins to be generated
 #define MONEY_SUPPLY                                    ((uint64_t)(-1))
-#define EMISSION_SPEED_FACTOR_PER_MINUTE_V1             (20)
-#define EMISSION_SPEED_FACTOR_PER_MINUTE_V2             (18)
+#define EMISSION_SPEED_FACTOR_PER_MINUTE_V1             (18)
 #define FINAL_SUBSIDY_PER_MINUTE                        ((uint64_t)300000000000) // 3 * pow(10, 11)
 
 #define CRYPTONOTE_REWARD_BLOCKS_WINDOW                 100
 
-#define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V1    20000   //size of block (bytes) after which reward for block calculated using block size - before first fork
-#define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_LIMBO 60000   //(previously V2) 
-#define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V2    300000  //(previously V5) size of block (bytes) after which reward for block calculated using block size
+#define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V1    20000   //size of block (bytes) after which reward for block calculated using block size
+#define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_LIMBO 60000   //(previously Monero V2) 
+#define CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V2    300000  //(previously Monero V5) size of block (bytes) after which reward for block calculated using block size
 
 
 #define CRYPTONOTE_COINBASE_BLOB_RESERVED_SIZE          600
@@ -154,7 +159,7 @@
 
 #define THREAD_STACK_SIZE                               5 * 1024 * 1024
 
-#define HF_VERSION_DYNAMIC_FEE                          2
+#define HF_VERSION_DYNAMIC_FEE                          1
 #define HF_VERSION_MIN_MIXIN_4                          2
 #define HF_VERSION_ENFORCE_RCT                          2
 
