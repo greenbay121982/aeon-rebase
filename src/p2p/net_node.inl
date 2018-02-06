@@ -379,7 +379,9 @@ namespace nodetool
     }
     else
     {
-      full_addrs.insert("127.0.0.1:11180"); // Add VPS when ready
+        full_addrs.insert("74.91.23.186:11180");
+        full_addrs.insert("192.187.114.114:11180");
+
     }
     return full_addrs;
   }
