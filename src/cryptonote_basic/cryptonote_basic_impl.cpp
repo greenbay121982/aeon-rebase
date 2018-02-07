@@ -77,9 +77,11 @@ namespace cryptonote {
         speed = HARDFORK_1_OLD_SPEED_FACTOR;
       } 
       if (testnet && height > 1){
-        speed = EMISSION_SPEED_FACTOR_PER_MINUTE_V1;
+        speed = EMISSION_SPEED_FACTOR_PER_MINUTE_V2;
       }
-    } 
+    } else if (version == 2) {
+      speed = EMISSION_SPEED_FACTOR_PER_MINUTE_V2;
+    }
 
     return speed;
   }
@@ -90,6 +92,8 @@ namespace cryptonote {
 
     if (version == 1) {
       min_block_size = CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V1;
+    } else if (version == 2) {
+      min_block_size = CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE_V2;
     } 
 
     return min_block_size;
@@ -99,8 +103,7 @@ namespace cryptonote {
   {
     uint64_t base_reward = (MONEY_SUPPLY - already_generated_coins) >> speed;
     int target_minutes = DIFFICULTY_TARGET/60;
-
-    if (version == 1)
+    if (version == 2)
     {
       if(base_reward < FINAL_SUBSIDY_PER_MINUTE * target_minutes)
         base_reward = FINAL_SUBSIDY_PER_MINUTE * target_minutes;

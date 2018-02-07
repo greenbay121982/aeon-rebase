@@ -2378,32 +2378,25 @@ bool Blockchain::check_tx_outputs(const transaction& tx, tx_verification_context
 
   // from hard fork 2, we forbid dust and compound outputs
   if (hf_version >= 2) {
-    for (auto &o: tx.vout) {
+    for (const auto &o: tx.vout) {
       if (tx.version == 1)
       {
+        // forbid dust and compound outputs
         if (!is_valid_decomposed_amount(o.amount)) {
           tvc.m_invalid_output = true;
           return false;
         }
       }
-    }
-  }
-
-  // in a v2 tx, all outputs must have 0 amount
-  if (hf_version >= 3) {
-    if (tx.version >= 2) {
-      for (auto &o: tx.vout) {
+      else if (tx.version >= 2)
+      {
+        // all outputs must have 0 amount
         if (o.amount != 0) {
           tvc.m_invalid_output = true;
           return false;
         }
       }
-    }
-  }
 
-  // from v4, forbid invalid pubkeys
-  if (hf_version >= 4) {
-    for (const auto &o: tx.vout) {
+      // Forbid invalid pubkeys
       if (o.target.type() == typeid(txout_to_key)) {
         const txout_to_key& out_to_key = boost::get<txout_to_key>(o.target);
         if (!crypto::check_key(out_to_key.key)) {
@@ -2414,16 +2407,23 @@ bool Blockchain::check_tx_outputs(const transaction& tx, tx_verification_context
     }
   }
 
-  // from v7, allow bulletproofs
-  if (hf_version < 7 || !m_testnet) {
+  // From v7 of Monero, allow bulletproofs, as an
+  // assumption of next version of AEON
+  // 
+  // Commented out for now, as we don't want to check for bulletproofs 
+  // when second version of AEON goes on mainnet
+
+  /*
+  if (hf_version < 3 || !m_testnet) {
     if (!tx.rct_signatures.p.bulletproofs.empty())
     {
-      MERROR("Bulletproofs are not allowed before v7 or on mainnet");
+      MERROR("Bulletproofs are not allowed before v3 or on mainnet");
       tvc.m_invalid_output = true;
       return false;
     }
   }
-
+  */
+ 
   return true;
 }
 //------------------------------------------------------------------
