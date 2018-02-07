@@ -74,7 +74,7 @@ namespace cryptonote {
         return AFTER_HARDFORK_SPEED_FACTOR;
     }
 
-    if (height > HARDFORK_1_HEIGHT)
+    if (height >= HARDFORK_1_HEIGHT)
       return AFTER_HARDFORK_SPEED_FACTOR;
 
     return HARDFORK_1_OLD_SPEED_FACTOR;
